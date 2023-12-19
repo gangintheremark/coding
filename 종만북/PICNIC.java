@@ -22,7 +22,7 @@ public class PICNIC {
 
             for (int i = student + 1; i < n; i++) {
                 if (!check[i] && friends[student][i]) {
-                    check[student] = check[i] = true; // 짝 매치 성공~!
+                    check[student] = check[i] = true; // 짝 매치 O
                     solution(L + 2);
                     check[student] = check[i] = false; // 짝 매치 X
                 }

@@ -1,11 +1,10 @@
 import java.util.*;
 
-
-public class Main {
+public class PICNIC {
 
     static int n, m, count = 0;
     static boolean[][] friends; // 친구관계
-    static boolean[] check; // 짝 유무 
+    static boolean[] check; // 짝 유무
 
     public static void solution(int L) {
         int student = -1;
@@ -25,7 +24,7 @@ public class Main {
                 if (!check[i] && friends[student][i]) {
                     check[student] = check[i] = true; // 짝 매치 성공~!
                     solution(L + 2);
-                    check[student] = check[i] = false; // 짝 매치 X 
+                    check[student] = check[i] = false; // 짝 매치 X
                 }
             }
         }

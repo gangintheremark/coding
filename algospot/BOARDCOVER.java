@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-public class Main {
+public class BOARDCOVER {
 
     static int[][][] dxdy = {
             {{0, 0}, {0, 1}, {1, 0}},

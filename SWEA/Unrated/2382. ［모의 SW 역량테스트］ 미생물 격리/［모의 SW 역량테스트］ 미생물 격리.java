@@ -68,11 +68,9 @@ class Cluster implements Comparable<Cluster> {
 
 // 상1 하2 좌3 우4
 class Solution {
-	static int N, M, K;
 	static List<Cluster> clusters = new ArrayList<>();
-	static int[][] board;
 
-	public static Cluster findC(int index) {
+	public static Cluster findByIdx(int index) {
 		for(Cluster c : clusters) {
 			if(c.index == index)
 				return c;
@@ -83,6 +81,7 @@ class Solution {
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st;
+		StringBuilder sb = new StringBuilder();
 
 		int T = Integer.parseInt(br.readLine());
 
@@ -90,11 +89,11 @@ class Solution {
 			clusters.clear();
 			st = new StringTokenizer(br.readLine());
 
-			N = Integer.parseInt(st.nextToken());
-			M = Integer.parseInt(st.nextToken());
-			K = Integer.parseInt(st.nextToken());
+			int N = Integer.parseInt(st.nextToken());
+			int M = Integer.parseInt(st.nextToken());
+			int K = Integer.parseInt(st.nextToken());
 
-			board = new int[N][N];
+			int[][] board = new int[N][N];
 
 			for (int[] col : board)
 				Arrays.fill(col, -1);
@@ -130,7 +129,7 @@ class Solution {
 
 					if (board[c.x][c.y] != -1) {
 					
-						Cluster tmp = findC(board[c.x][c.y]);
+						Cluster tmp = findByIdx(board[c.x][c.y]);
 						if (c.num < tmp.num) {
 							tmp.plus(c);
 							c.num = 0;
@@ -152,9 +151,10 @@ class Solution {
 					sum += c.num;
 				}
 			}
-
-			System.out.printf("#%d %d\n", t, sum);
+			sb.append("#" + t + " " + sum + "\n");
+		
 		}
+		System.out.println(sb);
 
 	}
 }

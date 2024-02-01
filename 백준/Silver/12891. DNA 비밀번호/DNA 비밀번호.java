@@ -9,7 +9,8 @@ class Main {
 
 	static int S, P;
 	static int[] myCount = new int[4];
-	static int[] checkCount = new int[4];
+	static int AC, CC, GC, TC;
+	static int A, C, G, T;
 
 	/*
 	 * 0: A 1: C 2: G 3: T
@@ -27,14 +28,14 @@ class Main {
 
 		int result = 0;
 
-		for (int i = 0; i < 4; i++) {
-			checkCount[i] = Integer.parseInt(st.nextToken());
-		}
+		A = Integer.parseInt(st.nextToken());
+		C = Integer.parseInt(st.nextToken());
+		G = Integer.parseInt(st.nextToken());
+		T = Integer.parseInt(st.nextToken());
 
 		// 윈도우 초기값 설정
 		for (int i = 0; i < P; i++) {
 			char c = str.charAt(i);
-
 			find(c, 1);
 		}
 
@@ -60,20 +61,17 @@ class Main {
 
 	public static void find(char c, int index) {
 		if (c == 'A')
-			myCount[0] += index;
+			AC += index;
 		else if (c == 'C')
-			myCount[1] += index;
+			CC += index;
 		else if (c == 'G')
-			myCount[2] += index;
+			GC += index;
 		else if (c == 'T')
-			myCount[3] += index;
+			TC += index;
 	}
 
 	public static boolean check() {
-		for (int i = 0; i < 4; i++) {
-			if (myCount[i] < checkCount[i])
-				return false;
-		}
-		return true;
+		if(AC < A || CC < C || GC < G || TC < T ) return false;
+		return true; 
 	}
 }

@@ -8,7 +8,6 @@ import java.util.StringTokenizer;
 class Main {
 
 	static int S, P;
-	static int[] myCount = new int[4];
 	static int AC, CC, GC, TC;
 	static int A, C, G, T;
 

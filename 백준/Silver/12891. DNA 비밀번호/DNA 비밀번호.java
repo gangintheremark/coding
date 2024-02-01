@@ -20,14 +20,14 @@ class Main {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
+		int result = 0;
+
 		S = Integer.parseInt(st.nextToken());
 		P = Integer.parseInt(st.nextToken());
 
 		String str = br.readLine();
+		
 		st = new StringTokenizer(br.readLine());
-
-		int result = 0;
-
 		A = Integer.parseInt(st.nextToken());
 		C = Integer.parseInt(st.nextToken());
 		G = Integer.parseInt(st.nextToken());
@@ -35,8 +35,10 @@ class Main {
 
 		// 윈도우 초기값 설정
 		for (int i = 0; i < P; i++) {
-			char c = str.charAt(i);
-			find(c, 1);
+			if(str.charAt(i) == 'A') AC++;
+			else if(str.charAt(i) == 'C') CC++;
+			else if(str.charAt(i) == 'G') GC++;
+			else if(str.charAt(i) == 'T') TC++;
 		}
 
 		if (check())
@@ -46,28 +48,24 @@ class Main {
 		int right = P;
 
 		while (right < S) {
-			char l = str.charAt(left++);
-			char r = str.charAt(right++);
-
-			find(l, -1);
-			find(r, 1);
+			if(str.charAt(left) == 'A') AC--;
+			else if(str.charAt(left) == 'C') CC--;
+			else if(str.charAt(left) == 'G') GC--;
+			else if(str.charAt(left) == 'T') TC--;
+			
+			if(str.charAt(right) == 'A') AC++;
+			else if(str.charAt(right) == 'C') CC++;
+			else if(str.charAt(right) == 'G') GC++;
+			else if(str.charAt(right) == 'T') TC++;
+			
 
 			if (check())
 				result++;
 
+			left++;
+			right++;
 		}
 		System.out.println(result);
-	}
-
-	public static void find(char c, int index) {
-		if (c == 'A')
-			AC += index;
-		else if (c == 'C')
-			CC += index;
-		else if (c == 'G')
-			GC += index;
-		else if (c == 'T')
-			TC += index;
 	}
 
 	public static boolean check() {

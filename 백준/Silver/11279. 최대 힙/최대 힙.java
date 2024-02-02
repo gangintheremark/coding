@@ -8,6 +8,7 @@ public class Main {
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		StringBuilder sb = new StringBuilder();
 
 		PriorityQueue<Integer> Q = new PriorityQueue<>(Collections.reverseOrder());
 		int N = Integer.parseInt(br.readLine());
@@ -15,13 +16,14 @@ public class Main {
 		for (int i = 0; i < N; i++) {
 			int x = Integer.parseInt(br.readLine());
 			if (x == 0) {
-				if(Q.isEmpty()) System.out.println(0);
+				if(Q.isEmpty()) sb.append(0).append("\n");
 				else 
-					System.out.println(Q.poll());
+					 sb.append(Q.poll()).append("\n");
 			} else {
 				Q.add(x);
 			}
 		}
+		System.out.println(sb);
 	}
 
 }

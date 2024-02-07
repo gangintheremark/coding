@@ -72,65 +72,45 @@ public class Solution {
 			nx = x + distX[d - 1];
 			ny = y + distY[d - 1];
 
-			if (board[nx][ny] == -2) {
-				// 벽을 만난 경우
+			if (board[nx][ny] == -2 || board[nx][ny] == 5 || (board[nx][ny] == 1 && (d == 1 || d == 4))
+					|| (board[nx][ny] == 2 && (d == 2 || d == 4)) || (board[nx][ny] == 3 && (d == 2 || d == 3))
+					|| (board[nx][ny] == 4 && (d == 1 || d == 3))) {
+				// 벽을 만난 경우 or 모든 면이 수직/수평인 5번 모양을 만난 경우
 				count = count * 2 + 1;
 				maxScore = Math.max(count, maxScore);
 				break;
 			}
 
-			if (nx >= 1 && nx <= N && ny >= 1 && ny <= N) {
-				if (board[nx][ny] == -1 || (startX == nx && startY == ny)) {
-					// 블랙홀 또는 시작지점에 도착한 경우, 점수가 최대인지
-					maxScore = Math.max(count, maxScore);
-					break;
-				}
-
-				x = nx;
-				y = ny;
-
-				if (board[nx][ny] >= 1 && board[nx][ny] <= 4) {
-					// 블록을 만난 경우
-					// 블록의 수평면 or 수직면을 만난 경우 => count*2 + 1
-					if ((board[nx][ny] == 1 && (d == 1 || d == 4)) || (board[nx][ny] == 2 && (d == 2 || d == 4))
-							|| (board[nx][ny] == 3 && (d == 2 || d == 3))
-							|| (board[nx][ny] == 4 && (d == 1 || d == 3))) {
-						x = startX - distX[d - 1];
-						y = startY - distY[d - 1];
-
-						count = count * 2 + 1;
-						continue;
-					} else {
-						count++;
-						d = change(board[nx][ny], d);
-					}
-				} else if (board[nx][ny] >= 6 && board[nx][ny] <= 10) {
-					// 웜홀을 만난 경우
-					for (int i = 0; i < holes.size(); i++) {
-						Point p = holes.get(i);
-						if (p.key == board[nx][ny] && (p.px != nx || p.py != ny)) {
-							// 다른 웜홀로 이동
-							x = p.px;
-							y = p.py;
-							break;
-						}
-					}
-				} else if (board[nx][ny] == 5) {
-					count = count * 2 + 1;
-					maxScore = Math.max(count, maxScore);
-					break;
-				}
-
-			} else
+			if (board[nx][ny] == -1 || (startX == nx && startY == ny)) {
+				// 블랙홀 또는 시작지점에 도착한 경우, 점수가 최대인지
+				maxScore = Math.max(count, maxScore);
 				break;
+			}
+
+			x = nx;
+			y = ny;
+
+			if (board[nx][ny] >= 1 && board[nx][ny] <= 4) {
+				count++;
+				d = change(board[nx][ny], d);
+			} else if (board[nx][ny] >= 6 && board[nx][ny] <= 10) {
+				// 웜홀을 만난 경우
+				for (int i = 0; i < holes.size(); i++) {
+					Point p = holes.get(i);
+					if (p.key == board[nx][ny] && (p.px != nx || p.py != ny)) {
+						// 다른 웜홀로 이동
+						x = p.px;
+						y = p.py;
+						break;
+					}
+				}
+			}
 
 		}
 	}
 
-	
-
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		// System.setIn(new FileInputStream("sample_input.txt"));
+	//	System.setIn(new FileInputStream("sample_input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 

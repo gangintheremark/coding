@@ -17,12 +17,6 @@ class Point {
 		this.px = px;
 		this.py = py;
 	}
-
-	@Override
-	public String toString() {
-		return "Point [key=" + key + ", px=" + px + ", py=" + py + "]";
-	}
-
 }
 
 public class Solution {
@@ -72,10 +66,10 @@ public class Solution {
 			nx = x + distX[d - 1];
 			ny = y + distY[d - 1];
 
-			if (board[nx][ny] == -2 || board[nx][ny] == 5 || (board[nx][ny] == 1 && (d == 1 || d == 4))
+			if ((board[nx][ny] == 1 && (d == 1 || d == 4))
 					|| (board[nx][ny] == 2 && (d == 2 || d == 4)) || (board[nx][ny] == 3 && (d == 2 || d == 3))
-					|| (board[nx][ny] == 4 && (d == 1 || d == 3))) {
-				// 벽을 만난 경우 or 모든 면이 수직/수평인 5번 모양을 만난 경우
+					|| (board[nx][ny] == 4 && (d == 1 || d == 3) || board[nx][ny] == 5 || board[nx][ny] == -2)) {
+				// 벽을 만난 경우 or 면이 수직/수평인 모양을 만난 경우 
 				count = count * 2 + 1;
 				maxScore = Math.max(count, maxScore);
 				break;
@@ -110,7 +104,7 @@ public class Solution {
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
-	//	System.setIn(new FileInputStream("sample_input.txt"));
+		 // System.setIn(new FileInputStream("sample_input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 

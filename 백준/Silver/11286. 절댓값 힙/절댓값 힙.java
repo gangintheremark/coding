@@ -28,6 +28,7 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		PriorityQueue<Pair> q = new PriorityQueue<>();
+		StringBuilder sb = new StringBuilder();
 		int N = Integer.parseInt(br.readLine());
 
 		for (int i = 0; i < N; i++) {
@@ -37,10 +38,11 @@ public class Main {
 				q.add(new Pair(Math.abs(tmp), tmp));
 			} else {
 				if (q.isEmpty()) {
-					System.out.println(0);
+					sb.append(0 + "\n");
 				} else
-					System.out.println(q.poll().num);
+					sb.append(q.poll().num + "\n");
 			}
 		}
+		System.out.println(sb);
 	}
 }

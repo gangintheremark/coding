@@ -56,5 +56,4 @@ class Solution {
 		return answer / 2;
 	}
 
-
 }

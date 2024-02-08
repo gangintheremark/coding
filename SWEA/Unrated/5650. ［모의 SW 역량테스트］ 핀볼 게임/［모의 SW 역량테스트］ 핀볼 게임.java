@@ -138,7 +138,7 @@ public class Solution {
 						}
 					}
 
-			sb.append("#" + t + " " + maxScore + "\n");
+            sb.append('#').append(t).append(' ').append(maxScore).append('\n');
 		}
 		System.out.println(sb);
 	}

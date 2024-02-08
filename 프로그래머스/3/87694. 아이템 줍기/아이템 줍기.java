@@ -4,7 +4,7 @@ class Solution {
 	static int[] distX = { 1, -1, 0, 0 };
 	static int[] distY = { 0, 0, 1, -1 };
 	static boolean[][] visited;
-	static int answer = 2500;
+	static int answer = Integer.MAX_VALUE;
 
 	public void dfs(int x, int y, int count, int itemX, int itemY) {
 		if (count > answer)
@@ -55,5 +55,6 @@ class Solution {
 		dfs(2 * characterX, 2 * characterY, 0, 2 * itemX, 2 * itemY);
 		return answer / 2;
 	}
+
 
 }

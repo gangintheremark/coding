@@ -54,10 +54,9 @@ public class Main {
 		for (int i = 0; i < M; i++)
 			arr[i] = Integer.parseInt(br.readLine());
 
-		Arrays.sort(arr);
 
 		int lt = 1;
-		int rt = arr[arr.length - 1];
+		int rt = Arrays.stream(arr).max().getAsInt();
 
 		while (lt <= rt) {
 			int mid = (lt + rt) / 2;

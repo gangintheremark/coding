@@ -3,6 +3,14 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.StringTokenizer;
 
+// 야매로 풀었습니당ㅋ ㅋ ㅠ
+
+/*
+ *  답이 0인 경우
+ *  #1. 동물의 수인 N보다 더 큰 값을 입력 받을 때
+ *  #2. 동물의 대답이 2번 보다 더 많이 입력 받을 때 (예시 : 0 0 0 ... )
+ *  #3. 최대값이 0이면서 동물의 수인 N이 2보다 많을 때 
+ */
 public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -29,10 +37,6 @@ public class Main {
 		int answer = 1;
 		boolean flag = false;
 
-		if (max == 0 && N > 2) {
-			System.out.println(0);
-			return;
-		}
 
 		if (max == 0 && N <= 2) {
 			System.out.println(2);

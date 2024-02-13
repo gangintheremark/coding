@@ -11,9 +11,8 @@ public class Main {
 	private static int answer = Integer.MAX_VALUE;
 
 	// 학생이 보석을 num개 씩 가진다고 가정할 떄, 몇 명에게 나눠줄 수 있는지?
-	// N 보다 많으면 lt = mid + 1 , answer 할 필요 없
+	// N 보다 많으면 lt = mid + 1 , answer 구할 필요 없음
 	// N 보다 적으면 rt = mid - 1
-	// 보석을 2개(num)씩 3명(return)
 	public static int solution(int num) {
 		int index = 0;
 		int count = 0;
@@ -50,13 +49,15 @@ public class Main {
 		N = Integer.parseInt(st.nextToken());
 		M = Integer.parseInt(st.nextToken());
 		arr = new int[M];
-
-		for (int i = 0; i < M; i++)
+		int max = 0;
+		for (int i = 0; i < M; i++) {
 			arr[i] = Integer.parseInt(br.readLine());
-
+			if(arr[i] > max)
+				max = arr[i];
+		}
 
 		int lt = 1;
-		int rt = Arrays.stream(arr).max().getAsInt();
+		int rt = max;
 
 		while (lt <= rt) {
 			int mid = (lt + rt) / 2;

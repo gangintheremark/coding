@@ -15,9 +15,12 @@ class Solution {
 	static List<int[]> list = new ArrayList<int[]>();
 
 	public static void dfs(int count, int sum, int prev) {
+
+		if (sum > result)
+			return;
 		if (count == n) {
 			// 모든 집을 방문했을 때,
-			sum += mat[prev+2][1];
+			sum += mat[prev + 2][1];
 			result = Math.min(result, sum);
 			return;
 		}
@@ -26,7 +29,7 @@ class Solution {
 			// 방문하지 않은 집이라면
 			if (!visited[i]) {
 				visited[i] = true;
-				dfs(count + 1, sum + mat[prev+2][i+2], i);
+				dfs(count + 1, sum + mat[prev + 2][i + 2], i);
 				visited[i] = false;
 			}
 		}
@@ -55,7 +58,7 @@ class Solution {
 			// 집 좌표
 			int hx = Integer.parseInt(st.nextToken());
 			int hy = Integer.parseInt(st.nextToken());
-			
+
 			list.clear();
 			for (int i = 0; i < n; i++) {
 				list.add(new int[] { Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()) });
@@ -83,10 +86,10 @@ class Solution {
 			for (int i = 0; i < n; i++) {
 				Arrays.fill(visited, false);
 				visited[i] = true;
-				dfs(1, mat[0][i+2], i);
+				dfs(1, mat[0][i + 2], i);
 				visited[i] = false;
 			}
-			
+
 			sb.append('#').append(t).append(' ').append(result).append('\n');
 			result = Integer.MAX_VALUE;
 		}

@@ -19,12 +19,6 @@ public class Solution {
 			this.y = y;
 			this.time = time;
 		}
-
-		@Override
-		public String toString() {
-			return "Node [x=" + x + ", y=" + y + ", time=" + time + "]";
-		}
-
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
@@ -57,6 +51,7 @@ public class Solution {
 			Deque<Node> q = new ArrayDeque<>();
 			q.offer(new Node(R, C, 1));
 			visited[R][C] = true;
+			int count = 1;
 			while (!q.isEmpty()) {
 				Node now = q.poll();
 				if (now.time == L)
@@ -77,15 +72,19 @@ public class Solution {
 						int tmp = board[nx][ny];
 						
 						if (i == 0 && (tmp == 1 || tmp == 3 || tmp == 6 || tmp == 7)) {
+							count++;
 							visited[nx][ny] = true;
 							q.offer(new Node(nx, ny, now.time + 1));
 						} else if (i == 1 && (tmp == 1 || tmp == 3 || tmp == 4 || tmp == 5)) {
+							count++;
 							visited[nx][ny] = true;
 							q.offer(new Node(nx, ny, now.time + 1));
 						} else if (i == 2 && (tmp == 1 || tmp == 2 || tmp == 5 || tmp == 6)) {
+							count++;
 							visited[nx][ny] = true;
 							q.offer(new Node(nx, ny, now.time + 1));
 						} else if (i == 3 && (tmp == 1 || tmp == 2 || tmp == 4 || tmp == 7)) {
+							count++;
 							visited[nx][ny] = true;
 							q.offer(new Node(nx, ny, now.time + 1));
 						}
@@ -94,14 +93,8 @@ public class Solution {
 
 				}
 			}
-			int answer = 0;
-			for (int i = 0; i < N; i++) {
-				for (int j = 0; j < M; j++)
-					if (visited[i][j])
-						answer++;
-			}
 
-			sb.append('#').append(t).append(' ').append(answer).append('\n');
+			sb.append('#').append(t).append(' ').append(count).append('\n');
 
 		}
 		System.out.println(sb);

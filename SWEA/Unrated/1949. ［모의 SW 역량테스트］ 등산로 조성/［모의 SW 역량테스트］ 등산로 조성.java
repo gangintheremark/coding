@@ -16,10 +16,6 @@ public class Solution {
 	static int[] dy = { 0, 0, 1, -1 };
 
 	public static void dfs(int x, int y, int count) {
-
-		if (count > n * n)
-			return;
-
 		for (int i = 0; i < 4; i++) {
 			int nx = x + dx[i];
 			int ny = y + dy[i];
@@ -32,15 +28,14 @@ public class Solution {
 							visited[nx][ny] = true;
 							flag = true;
 							dfs(nx, ny, count + 1);
-
-							board[nx][ny] += j;
 							visited[nx][ny] = false;
 							flag = false;
+							board[nx][ny] += j;
 							continue;
 						}
 						board[nx][ny] += j;
 					}
-				} else if(board[nx][ny] < board[x][y]){
+				} else if (board[nx][ny] < board[x][y]) {
 					visited[nx][ny] = true;
 					dfs(nx, ny, count + 1);
 					visited[nx][ny] = false;
@@ -83,8 +78,6 @@ public class Solution {
 						visited[i][j] = true;
 						dfs(i, j, 1);
 						visited[i][j] = false;
-
-						
 					}
 				}
 			}

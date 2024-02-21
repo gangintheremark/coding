@@ -4,25 +4,14 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-	static int N, M;
-
-	public static boolean valid(int x, int y) {
-		if (x >= 1 && x <= N && y >= 1 && y <= M)
-			return true;
-		return false;
-	}
-
 	public static void main(String[] args) throws NumberFormatException, IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
+		int N = Integer.parseInt(st.nextToken());
+		int M = Integer.parseInt(st.nextToken());
 		int L = Integer.parseInt(st.nextToken());
 		int K = Integer.parseInt(st.nextToken());
 		List<int[]> list = new ArrayList<int[]>();
-		/*
-		 * 별이 떨어지는 위치는 1
-		 */
 
 		for (int i = 0; i < K; i++) {
 			st = new StringTokenizer(br.readLine());

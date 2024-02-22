@@ -12,7 +12,7 @@ public class Solution {
     static int n, m;
 
     public static void main(String[] args) throws NumberFormatException, IOException {
-      //   System.setIn(new FileInputStream("sample_input.txt"));
+        // System.setIn(new FileInputStream("sample_input.txt"));
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringBuilder sb = new StringBuilder();
         StringTokenizer st;
@@ -46,15 +46,10 @@ public class Solution {
 
                         for (int l = 0; l < list.size(); l++) {
                             int[] tmp = list.get(l);
-                            if (tmp[0] == i) {
-                                if (Math.abs(tmp[1] - j) <= k - 1) count++;
-                            } else if (tmp[1] == j) {
-                                if (Math.abs(tmp[0] - i) <= k - 1) count++;
-                            } else {
 
                                 if (Math.abs(tmp[0] - i) + Math.abs(tmp[1] - j) < (double) k)
                                     count++;
-                            }
+
                         }
 
                         int money = count * m - work;

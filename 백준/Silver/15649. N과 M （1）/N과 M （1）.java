@@ -8,6 +8,7 @@ class Main {
 	static boolean[] isSelected;
 	static int[] numbers;
 	static int N, M;
+	static StringBuilder sb = new StringBuilder();
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -18,15 +19,16 @@ class Main {
 		isSelected = new boolean[N + 1];
 		numbers = new int[M];
 		permutation(0);
+		System.out.println(sb);
 
 	}
 
 	public static void permutation(int count) {
 		if (count == M) {
-			for(int num : numbers) {
-				System.out.print(num + " ");
-			}
-			System.out.println();
+			for (int num : numbers)
+				sb.append(num).append(' ');
+
+			sb.append('\n');
 			return;
 		}
 

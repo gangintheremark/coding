@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /*
- * 가로로 m개의 벌통을 선택할 수 있고, 채취할 수 있는 꿀의 최대는 c
- */
+
+가로로 m개의 벌통을 선택할 수 있고, 채취할 수 있는 꿀의 최대는 c
+*/
 public class Solution {
 	static int result, n, m, c;
 	static int[][] board;
-	static boolean[][] visited;
+	static boolean[] visited;
 	static Node[] rowValue;
 	static List<int[]> honeyList = new ArrayList<>();
 	static List<Point> combi = new ArrayList<>();
@@ -81,7 +82,7 @@ public class Solution {
 
 			board = new int[n][n];
 			rowValue = new Node[n];
-			visited = new boolean[n][n];
+			visited = new boolean[n];
 
 			for (int i = 0; i < n; i++) {
 				st = new StringTokenizer(br.readLine());
@@ -114,7 +115,26 @@ public class Solution {
 			}
 
 			result += rowValue[index].money;
+
+			// 방문체크
 			rowValue[index].money = 0;
+			for (int i = 0; i < rowValue[index].points.size(); i++)
+				visited[rowValue[index].points.get(i)[1]] = true;
+
+			// 인덱스 행의 최대 수익 다시 구하기
+			for (int j = 0; j <= n - m; j++) {
+				// j부터 j+m 까지 추출 후 부부집합찾기 단, 방문체크가 안된 구역만
+				for (int k = j; k < j + m; k++) {
+					if (visited[k])
+						break;
+					honeyList.add(new int[] { index, k });
+				}
+				// 추출한 honeyList 에서 최대 수익과 그 좌표 구하기
+				if (honeyList.size() == m)
+					selected(0, 0, 0, index);
+
+				honeyList.clear();
+			}
 
 			max = 0;
 			index = 0;

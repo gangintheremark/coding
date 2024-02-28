@@ -119,9 +119,6 @@ public class Solution {
 
 			// 방문체크
 			rowValue[index].money = 0;
-			int x = rowValue[index].points.get(0)[0];
-			int y = rowValue[index].points.get(0)[1];
-
 			for (int i = 0; i < rowValue[index].points.size(); i++)
 				visited[index][rowValue[index].points.get(i)[1]] = true;
 

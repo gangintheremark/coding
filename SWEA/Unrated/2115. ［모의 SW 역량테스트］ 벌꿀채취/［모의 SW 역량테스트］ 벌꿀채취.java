@@ -3,9 +3,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 /*
@@ -116,26 +114,7 @@ public class Solution {
 			}
 
 			result += rowValue[index].money;
-
-			// 방문체크
 			rowValue[index].money = 0;
-			for (int i = 0; i < rowValue[index].points.size(); i++)
-				visited[index][rowValue[index].points.get(i)[1]] = true;
-
-			// 인덱스 행의 최대 수익 다시 구하기
-			for (int j = 0; j <= n - m; j++) {
-				// j부터 j+m 까지 추출 후 부부집합찾기 단, 방문체크가 안된 구역만
-				for (int k = j; k < j + m; k++) {
-					if (visited[index][k])
-						break;
-					honeyList.add(new int[] { index, k });
-				}
-				// 추출한 honeyList 에서 최대 수익과 그 좌표 구하기
-				if (honeyList.size() == m)
-					selected(0, 0, 0, index);
-
-				honeyList.clear();
-			}
 
 			max = 0;
 			index = 0;

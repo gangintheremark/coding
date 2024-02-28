@@ -15,15 +15,13 @@ public class Solution {
 	static int result, n, m, c;
 	static int[][] board;
 	static boolean[][] visited;
-	static Node[] first;
-	static List<int[]> selected = new ArrayList<>();
-	static List<int[]> tmp = new ArrayList<>();
+	static Node[] rowValue;
 	static List<int[]> honeyList = new ArrayList<>();
 	static List<Point> combi = new ArrayList<>();
 
 	static class Node {
-		int money;
-		List<int[]> points = new ArrayList<>();
+		int money; // 최대수익
+		List<int[]> points = new ArrayList<>(); // 채취한 벌통의 좌표 리스트 (1~m개)
 
 		public Node(int money, List<int[]> points) {
 			this.money = money;
@@ -48,14 +46,14 @@ public class Solution {
 			return;
 		if (index == m) {
 			int sum = 0;
-			for (Point p : combi) {
+			for (Point p : combi)
 				sum += p.value * p.value;
-			}
-			if (first[row].money < sum) {
-				first[row].money = sum;
-				first[row].points.clear();
+
+			if (rowValue[row].money < sum) {
+				rowValue[row].money = sum;
+				rowValue[row].points.clear();
 				for (Point p : combi)
-					first[row].points.add(new int[] { p.x, p.y });
+					rowValue[row].points.add(new int[] { p.x, p.y });
 
 			}
 			return;
@@ -71,7 +69,6 @@ public class Solution {
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		//System.setIn(new FileInputStream("sample_input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
@@ -85,7 +82,7 @@ public class Solution {
 			c = Integer.parseInt(st.nextToken());
 
 			board = new int[n][n];
-			first = new Node[n];
+			rowValue = new Node[n];
 			visited = new boolean[n][n];
 
 			for (int i = 0; i < n; i++) {
@@ -96,7 +93,7 @@ public class Solution {
 
 			for (int i = 0; i < n; i++) {
 				// i 행 마다 최대 수익 구하기
-				first[i] = new Node(0, new ArrayList<>());
+				rowValue[i] = new Node(0, new ArrayList<>());
 				for (int j = 0; j <= n - m; j++) {
 					// j부터 j+m 까지 추출 후 부부집합찾기
 					for (int k = j; k < j + m; k++)
@@ -111,22 +108,22 @@ public class Solution {
 
 			// 행마다 구한 최대 수익 중 가장 수익이 큰 행 구하기
 			int index = 0, max = 0;
-			for (int i = 0; i < first.length; i++) {
-				if (max < first[i].money) {
-					max = first[i].money;
+			for (int i = 0; i < rowValue.length; i++) {
+				if (max < rowValue[i].money) {
+					max = rowValue[i].money;
 					index = i;
 				}
 			}
 
-			result += first[index].money;
+			result += rowValue[index].money;
 
 			// 방문체크
-			first[index].money = 0;
-			int x = first[index].points.get(0)[0];
-			int y = first[index].points.get(0)[1];
-			
-			for(int i=0;i<first[index].points.size();i++) 
-				visited[index][first[index].points.get(i)[1]] = true;
+			rowValue[index].money = 0;
+			int x = rowValue[index].points.get(0)[0];
+			int y = rowValue[index].points.get(0)[1];
+
+			for (int i = 0; i < rowValue[index].points.size(); i++)
+				visited[index][rowValue[index].points.get(i)[1]] = true;
 
 			// 인덱스 행의 최대 수익 다시 구하기
 			for (int j = 0; j <= n - m; j++) {
@@ -145,14 +142,14 @@ public class Solution {
 
 			max = 0;
 			index = 0;
-			for (int i = 0; i < first.length; i++) {
-				if (max < first[i].money) {
-					max = first[i].money;
+			for (int i = 0; i < rowValue.length; i++) {
+				if (max < rowValue[i].money) {
+					max = rowValue[i].money;
 					index = i;
 				}
 			}
 
-			result += first[index].money;
+			result += rowValue[index].money;
 
 			sb.append('#').append(t).append(' ').append(result).append('\n');
 			result = 0;

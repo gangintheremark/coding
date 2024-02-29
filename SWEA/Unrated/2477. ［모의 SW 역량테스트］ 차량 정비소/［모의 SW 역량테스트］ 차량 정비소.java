@@ -25,7 +25,7 @@ public class Solution {
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		//System.setIn(new FileInputStream("sample_input.txt"));
+		// System.setIn(new FileInputStream("sample_input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
@@ -47,7 +47,7 @@ public class Solution {
 			repair = new Work[m + 1];
 			check = new boolean[k + 1];
 			int time = Integer.MAX_VALUE; // 첫 고객이 도착한 시간
-
+			int lastTime = 0;
 			st = new StringTokenizer(br.readLine());
 			for (int i = 1; i <= n; i++)
 				a[i] = Integer.parseInt(st.nextToken());
@@ -58,6 +58,7 @@ public class Solution {
 			for (int i = 1; i <= k; i++) {
 				arrive[i] = Integer.parseInt(st.nextToken());
 				time = Math.min(time, arrive[i]);
+				lastTime = Math.max(lastTime, arrive[i]);
 			}
 
 			Queue<Integer> receptionQ = new LinkedList<Integer>();
@@ -70,10 +71,11 @@ public class Solution {
 			while (finish < k) {
 
 				// 1. 도착시간이 된 고객들은 접수 대기 큐에
-				for (int i = 1; i <= k && arrive[i] <= time; i++) {
-					if (arrive[i] == time)
-						receptionQ.add(i);
-				}
+				if (lastTime >= time)
+					for (int i = 1; i <= k && arrive[i] <= time; i++) {
+						if (arrive[i] == time)
+							receptionQ.add(i);
+					}
 
 				// 2. 접수 창구 시간 --
 				if (receptionCnt != 0)
@@ -129,8 +131,9 @@ public class Solution {
 				time++;
 
 			}
-			
-			if(result == 0) result = -1;
+
+			if (result == 0)
+				result = -1;
 			sb.append('#').append(t).append(' ').append(result).append('\n');
 			result = 0;
 

@@ -7,13 +7,7 @@ import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Solution {
-	static int result, n, m, k, np, mp;
-	static int[] a, b, arrive;
-	static Work[] reception, repair; // 현재 접수 및 수리를 받는 중인 고객 리스트
-	static boolean[] check;
-	static Queue<Integer> receptionQ = new LinkedList<Integer>();
-	static Queue<Integer> repairQ = new LinkedList<Integer>();
-
+	
 	static class Work {
 		int client;
 		int desk;
@@ -27,7 +21,7 @@ public class Solution {
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
-	// 	System.setIn(new FileInputStream("sample_input.txt"));
+		//System.setIn(new FileInputStream("sample_input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
@@ -36,18 +30,21 @@ public class Solution {
 
 		for (int t = 1; t <= T; t++) {
 			st = new StringTokenizer(br.readLine());
-			n = Integer.parseInt(st.nextToken());
-			m = Integer.parseInt(st.nextToken());
-			k = Integer.parseInt(st.nextToken());
-			np = Integer.parseInt(st.nextToken());
-			mp = Integer.parseInt(st.nextToken());
+			int n = Integer.parseInt(st.nextToken());
+			int m = Integer.parseInt(st.nextToken());
+			int k = Integer.parseInt(st.nextToken());
+			int np = Integer.parseInt(st.nextToken());
+			int mp = Integer.parseInt(st.nextToken());
+			int result = 0;
+			int[] a = new int[n + 1];
+			int[] b = new int[m + 1];
+			int[] arrive = new int[k + 1];
+			Work[] reception = new Work[n + 1];
+			Work[] repair = new Work[m + 1];
+			boolean[] check = new boolean[k + 1];
 
-			a = new int[n + 1];
-			b = new int[m + 1];
-			arrive = new int[k + 1];
-			reception = new Work[n + 1];
-			repair = new Work[m + 1];
-			check = new boolean[k + 1];
+			Queue<Integer> receptionQ = new LinkedList<Integer>();
+			Queue<Integer> repairQ = new LinkedList<Integer>();
 			int time = Integer.MAX_VALUE; // 첫 고객이 도착한 시간
 			int lastTime = 0; // 마지막 고객이 도착한 시간
 
@@ -68,8 +65,8 @@ public class Solution {
 			int receptionCnt = 0;
 			int repairCnt = 0;
 			int finish = 0;
-			while (finish < k) {
 
+			while (finish < k) {
 				// 1. 도착시간이 된 고객들은 접수 대기 큐에
 				if (lastTime >= time)
 					for (int i = 1; i <= k && arrive[i] <= time; i++) {

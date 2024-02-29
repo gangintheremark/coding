@@ -8,9 +8,9 @@ import java.util.StringTokenizer;
 
 public class Solution {
 	static int result, n, m, k, np, mp;
-	static int[] a, b, arrive, awork, bwork;
-	static Work[] reception, repair;
-	static boolean[] check;
+	static int[] a, b, arrive;
+	static Work[] reception, repair; // 현재 접수 및 수리를 받는 중인 고객 리스트 
+	static boolean[] check; 
 
 	static class Work {
 		int client;
@@ -25,7 +25,7 @@ public class Solution {
 	}
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
-		// System.setIn(new FileInputStream("sample_input.txt"));
+		//System.setIn(new FileInputStream("sample_input.txt"));
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringBuilder sb = new StringBuilder();
 		StringTokenizer st;
@@ -47,7 +47,8 @@ public class Solution {
 			repair = new Work[m + 1];
 			check = new boolean[k + 1];
 			int time = Integer.MAX_VALUE; // 첫 고객이 도착한 시간
-			int lastTime = 0;
+			int lastTime = 0; // 마지막 고객이 도착한 시간
+			
 			st = new StringTokenizer(br.readLine());
 			for (int i = 1; i <= n; i++)
 				a[i] = Integer.parseInt(st.nextToken());
@@ -106,7 +107,7 @@ public class Solution {
 					}
 
 				// 4. 접수 대기 큐 고객들 접수 창구에 배치
-				for (int i = 1; i <= n && !receptionQ.isEmpty(); i++)
+				for (int i = 1; i <= n && !receptionQ.isEmpty() && receptionCnt != n; i++)
 					if (reception[i] == null) {
 						// 접수창구가 비어있다면 고객 배치
 						int client = receptionQ.poll();
@@ -117,7 +118,7 @@ public class Solution {
 					}
 
 				// 5. 수리 대기 큐 고객들 수리 창구에 배치
-				for (int i = 1; i <= m && !repairQ.isEmpty(); i++) {
+				for (int i = 1; i <= m && !repairQ.isEmpty() && repairCnt!= m; i++) {
 					if (repair[i] == null) {
 						// 수리창구가 비어있다면 고객배치
 						int client = repairQ.poll();

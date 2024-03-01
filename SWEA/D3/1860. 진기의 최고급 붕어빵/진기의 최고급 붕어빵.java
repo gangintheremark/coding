@@ -34,12 +34,10 @@ public class Solution {
 			Arrays.sort(arr);
 			boolean flag = true;
 
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < n && flag; i++) {
 				int dessert = (arr[i] / m) * k;
-				if (dessert - i <= 0) {
-					flag = false;
-					break;
-				}
+				if (dessert - i <= 0) flag = false;
+				
 			}
 
 			sb.append('#').append(t).append(' ').append(flag ? "Possible" : "Impossible").append('\n');

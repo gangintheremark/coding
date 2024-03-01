@@ -34,27 +34,12 @@ public class Solution {
 			Arrays.sort(arr);
 			boolean flag = true;
 
-			int dessert = k;
-			int time = m;
-			int start = 0;
-			while (time <= 11111 && flag) {
-				for (int i = start; i < n && arr[i] <= time; i++) {
-					start = i + 1;
-					if (arr[i] < time || dessert == 0) {
-						flag = false;
-						break;
-					}
-					dessert--;
-				}
-
-				if (start == n && flag)
+			for (int i = 0; i < n; i++) {
+				int dessert = (arr[i] / m) * k;
+				if (dessert - i <= 0) {
+					flag = false;
 					break;
-
-				time++;
-
-				if (time % m == 0)
-					dessert += k;
-
+				}
 			}
 
 			sb.append('#').append(t).append(' ').append(flag ? "Possible" : "Impossible").append('\n');

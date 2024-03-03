@@ -3,59 +3,57 @@ import java.util.*;
 
 public class Main {
 
-	static int N;
+	static int N, result = Integer.MAX_VALUE;
 	static int peoples[]; // 구역별 인구수
-	static List<ArrayList<Integer>> graph;
+	static List<ArrayList<Integer>> graph  = new ArrayList<>();
 	static boolean selected[];
 	static boolean visited[];
-	static int res;
+	static List<Integer> a = new ArrayList<Integer>();
+	static List<Integer> b = new ArrayList<Integer>();
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		N = Integer.parseInt(br.readLine()); // 지역 개수
-		res = Integer.MAX_VALUE; // 인구 차이(정답)
 		peoples = new int[N]; // 지역별 인구 수
 		selected = new boolean[N]; // 부분집합 만들 때 사용
+		visited = new boolean[N];
 
 		StringTokenizer st = new StringTokenizer(br.readLine());
 		for (int i = 0; i < N; i++) // 지역별 인구 수 입력
 			peoples[i] = Integer.parseInt(st.nextToken());
 
-		graph = new ArrayList<>();
-		for (int i = 0; i < N; i++) {
+		for (int i = 0; i < N; i++) 
 			graph.add(new ArrayList<Integer>());
-		}
+		
 
 		for (int i = 0; i < N; i++) {
 			st = new StringTokenizer(br.readLine());
 			int cnt = Integer.parseInt(st.nextToken()); // 인접 구역 수
 			for (int j = 0; j < cnt; j++) {
-				int num = Integer.parseInt(st.nextToken());
-				graph.get(i).add(num - 1);
+				graph.get(i).add(Integer.parseInt(st.nextToken()) - 1);
 			}
 		}
 
 		divide(0);
-		if (res == Integer.MAX_VALUE)
-			res = -1;
-		System.out.println(res);
+
+		System.out.println(result == Integer.MAX_VALUE ? -1 : result);
 
 	}
 
 	private static void divide(int idx) { // 1. 선거구 나누기
 		if (idx == N) {
-			List<Integer> aList = new ArrayList<>();
-			List<Integer> bList = new ArrayList<>();
+			a.clear();
+			b.clear();
 			for (int i = 0; i < N; i++) {
 				if (selected[i])
-					aList.add(i);
+					a.add(i);
 				else
-					bList.add(i);
+					b.add(i);
 			}
-			if (aList.size() == 0 || bList.size() == 0) // 한 지역에 몰빵 X
+			if (a.size() == 0 || b.size() == 0) 
 				return;
 			
-			if (check(aList) && check(bList)) { // 두 구역이 각각 연결되었는지 확인
+			if (check(a) && check(b)) { // 두 구역이 각각 연결되었는지 확인
 				getPeopleDiff(); // 인구차 구하기
 			}
 			return;
@@ -104,7 +102,7 @@ public class Main {
 				pB += peoples[i];
 		}
 		int diff = Math.abs(pA - pB);
-		res = Math.min(res, diff);
+		result = Math.min(result, diff);
 	}
 
 }

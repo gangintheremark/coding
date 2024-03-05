@@ -26,10 +26,10 @@ public class Main {
 		}
 	}
 
-	public static void dijkstra(int start, int[] d, List<ArrayList<Node>> graph) {
+	public static void dijkstra(int[] d, List<ArrayList<Node>> graph) {
 		PriorityQueue<Node> pq = new PriorityQueue<>();
-		pq.offer(new Node(start, 0));
-		d[start] = 0;
+		pq.offer(new Node(x, 0));
+		d[x] = 0;
 		while (!pq.isEmpty()) {
 			Node node = pq.poll();
 			int dist = node.dist;
@@ -43,10 +43,6 @@ public class Main {
 
 				if (cost < d[graph.get(now).get(i).v]) {
 					d[graph.get(now).get(i).v] = cost;
-					if (graph.get(now).get(i).v == x && start != x) {
-						go[start] = cost;
-						break;
-					}
 					pq.offer(graph.get(now).get(i));
 				}
 
@@ -83,8 +79,8 @@ public class Main {
 		Arrays.fill(go, Integer.MAX_VALUE);
 		Arrays.fill(back, Integer.MAX_VALUE);
 
-		dijkstra(x, go, graphOut);
-		dijkstra(x, back, graphIn);
+		dijkstra(go, graphOut);
+		dijkstra(back, graphIn);
 
 		for (int i = 1; i <= n; i++)
 			result = Math.max(result, go[i] + back[i]);

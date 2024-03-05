@@ -83,31 +83,30 @@ public class Main {
 			startU = d[v] + d[1];
 		else
 			startU = -1;
-		
+
 		if (d[n] != INF) {
 			startV = d[n];
-		}  else
+		} else
 			startV = -1;
 
 		dijkstra(v);
 
-		if (d[u] != INF && d[1] != INF && startV != -1)
+		if (startV != -1 && d[u] != INF && d[1] != INF)
 			startV += d[u] + d[1];
 		else
 			startV = -1;
-		
-		if (d[n] != INF && startU != -1) 
+
+		if (startU != -1 && d[n] != INF)
 			startU += d[n];
 		else
 			startU = -1;
-		
 
 		if (startU != -1 && startV != -1)
 			result = Math.min(startU, startV);
 		else if (startU != -1)
 			result = startU;
-		else if(startV != -1)
-			result =startV;
+		else if (startV != -1)
+			result = startV;
 		else
 			result = -1;
 		System.out.println(result);
@@ -124,10 +123,7 @@ public class Main {
 }
 
 /*
-4 2
-1 3 5
-2 4 5
-3 2
-
-답 : -1
-*/
+ * 4 2 1 3 5 2 4 5 3 2
+ * 
+ * 답 : -1
+ */

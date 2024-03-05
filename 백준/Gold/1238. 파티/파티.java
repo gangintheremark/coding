@@ -43,6 +43,7 @@ public class Main {
 
 				if (cost < d[graph.get(now).get(i).v]) {
 					d[graph.get(now).get(i).v] = cost;
+					if(graph.get(now).get(i).v == x) break;
 					pq.offer(graph.get(now).get(i));
 				}
 

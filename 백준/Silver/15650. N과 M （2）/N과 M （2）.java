@@ -1,37 +1,39 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
-class Main {
+public class Main {
+
+	static int n, m;
 	static int[] numbers;
-	static int N, M;
+	static boolean[] selected;
+	static StringBuilder sb = new StringBuilder();
+
+	public static void permutation(int start, int count) {
+		if (count == m) {
+			for (int num : numbers)
+				sb.append(num).append(' ');
+			sb.append('\n');
+			return;
+		}
+
+		for (int i = start; i <= n; i++) {
+				numbers[count] = i;
+				permutation(i + 1, count + 1);
+			
+		}
+	}
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
 
-		N = Integer.parseInt(st.nextToken());
-		M = Integer.parseInt(st.nextToken());
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		numbers = new int[m];
+		selected = new boolean[n + 1];
 
-		numbers = new int[M];
-		permutation(0,1);
-
+		permutation(1, 0);
+		System.out.println(sb);
 	}
 
-	public static void permutation(int count, int start) {
-		if (count == M) {
-			for(int num : numbers) {
-				System.out.print(num + " ");
-			}
-			System.out.println();
-			return;
-		}
-
-		for (int i = start; i <= N; i++) {
-
-			numbers[count] = i;
-			permutation(count + 1, i + 1);
-		}
-	}
 }

@@ -10,6 +10,7 @@ public class Main {
 	static int[] dy = { 0, 0, 1, -1 };
 
 	static void dfs(int x, int y, int count) {
+		if(count > k) return;
 		if (x == 0 && y == m - 1) {
 			if(count == k)
 				result++;

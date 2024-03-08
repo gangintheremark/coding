@@ -19,7 +19,7 @@ public class Main {
 		for (int i = 0; i < n - 1; i++)
 			oil[i] = Long.parseLong(st.nextToken());
 
-		int result = 0;
+		long result = 0;
 		long dist = distance[0]; // 오일을 사고 이동할 거리
 		long now = oil[0]; // 오일 가격
 		/* 다음 도시가 나보다 오일값이 크다면 */

@@ -3,9 +3,8 @@ import java.util.*;
 
 public class Main {
 	static int n, m, a, b;
-	static int count;
+	static int count = 1;
 	static int[] d, pre;
-	static List<Integer> list = new ArrayList<Integer>();
 	static List<ArrayList<Node>> graph = new ArrayList<ArrayList<Node>>();
 
 	static class Node implements Comparable<Node> {
@@ -40,9 +39,9 @@ public class Main {
 			for (int i = 0; i < graph.get(now).size(); i++) {
 				int cost = d[now] + graph.get(now).get(i).dist;
 				if (cost < d[graph.get(now).get(i).index]) {
-					pre[graph.get(now).get(i).index] = now;
 					d[graph.get(now).get(i).index] = cost;
 					pq.offer(new Node(graph.get(now).get(i).index, cost));
+					pre[graph.get(now).get(i).index] = now;
 				}
 			}
 		}
@@ -57,7 +56,7 @@ public class Main {
 		m = Integer.parseInt(br.readLine());
 
 		d = new int[n + 1];
-		pre = new int[n + 1];
+		pre = new int[n + 1]; // 이전 도시가 무엇인지 저장
 		Arrays.fill(d, Integer.MAX_VALUE);
 		for (int i = 0; i <= n; i++)
 			graph.add(new ArrayList<>());
@@ -75,19 +74,19 @@ public class Main {
 		dijkstra(a);
 
 		sb.append(d[b]).append('\n');
-		
+
 		Stack<Integer> stack = new Stack<>();
 		stack.push(b);
-		while(pre[b] != 0) {
-			count += 1;
+		while (pre[b] != 0) {
+			count++;
 			stack.push(pre[b]);
 			b = pre[b];
 		}
-		
-		sb.append(count+1).append('\n');
-		while(!stack.isEmpty())
+
+		sb.append(count).append('\n');
+		while (!stack.isEmpty())
 			sb.append(stack.pop()).append(' ');
-		
+
 		System.out.println(sb);
 	}
 }

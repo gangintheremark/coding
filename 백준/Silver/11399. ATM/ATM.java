@@ -30,13 +30,13 @@ public class Main {
 		
 		Collections.sort(list);
 		
-		int[] time = new int[n];
+		int result = 0;
 		int sum = 0;
 		for (int i = 0; i < list.size(); i++) {
 			sum += list.get(i);
-			time[i] = sum;
+			result += sum;
 		}
-		System.out.println(Arrays.stream(time).sum());
+		System.out.println(result);
 
 	}
 }

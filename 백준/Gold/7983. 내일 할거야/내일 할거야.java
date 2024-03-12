@@ -42,8 +42,7 @@ public class Main {
 				now -= node.day;
 				nodes.poll();
 			} else {
-				while(now != node.end)
-					now--;
+				now -= now - node.end;
 			}
 			
 			

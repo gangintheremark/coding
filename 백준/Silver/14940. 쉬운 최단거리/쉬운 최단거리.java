@@ -5,7 +5,6 @@ public class Main {
 
 	static int n, m, result = Integer.MAX_VALUE;
 	static int[][] board;
-	static boolean[][] visited;
 	static int[] dx = { 1, -1, 0, 0 };
 	static int[] dy = { 0, 0, 1, -1 };
 
@@ -44,12 +43,12 @@ public class Main {
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
+		StringBuilder sb = new StringBuilder();
 
 		n = Integer.parseInt(st.nextToken());
 		m = Integer.parseInt(st.nextToken());
 
 		board = new int[n + 1][m + 1];
-		visited = new boolean[n + 1][m + 1];
 
 		int startX = 0, startY = 0;
 		for (int i = 1; i <= n; i++) {
@@ -66,10 +65,10 @@ public class Main {
 		bfs(startX, startY);
 		for (int i = 1; i <= n; i++) {
 			for (int j = 1; j <= m; j++) {
-				System.out.print(board[i][j] + " ");
+				sb.append(board[i][j]).append(' ');
 			}
-			System.out.println();
+			sb.append('\n');
 		}
-
+		System.out.println(sb);
 	}
 }

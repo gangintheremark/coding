@@ -6,20 +6,6 @@ public class Main {
     // 크루스칼
     static int n, m;
     static int[] parent;
-    static ArrayList<ArrayList<Integer>> graph = new ArrayList<>();
-
-    static class Node {
-        int v;
-        int w;
-        int dist;
-
-        public Node(int v, int w, int dist) {
-            this.v = v;
-            this.w = w;
-            this.dist = dist;
-        }
-    }
-
     public static int find(int x) {
         if (x == parent[x]) return x;
         return parent[x] = find(parent[x]);

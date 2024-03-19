@@ -6,7 +6,7 @@ public class Main {
 	static double result;
 	static boolean[] visited;
 	static int[] parent;
-	static ArrayList<Node> graph = new ArrayList<>();
+	static PriorityQueue<Node> pq = new PriorityQueue<>();
 
 	static class Node implements Comparable<Node> {
 		int v;
@@ -73,7 +73,7 @@ public class Main {
 		for (int i = 1; i < n; i++) {
 			for (int j = i + 1; j <= n; j++) {
 				double dist = Math.sqrt(Math.pow(list.get(i)[0] - list.get(j)[0],2) + Math.pow(list.get(i)[1] - list.get(j)[1], 2));
-				graph.add(new Node(i, j, dist));
+				pq.add(new Node(i, j, dist));
 			}
 		}
 
@@ -81,20 +81,16 @@ public class Main {
 			st = new StringTokenizer(br.readLine());
 			union(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
 		}
-
-		Collections.sort(graph);
-
-		for (int i = 0; i < graph.size(); i++) {
-			double dist = graph.get(i).dist;
-			int v = graph.get(i).v;
-			int w = graph.get(i).w;
-
-			if (find(v) != find(w)) {
-				union(v, w);
-				result += dist;
+		
+		while(!pq.isEmpty()) {
+			Node node = pq.poll();
+			
+			if(find(node.v) != find(node.w)) {
+				union(node.v, node.w);
+				result += node.dist;
 			}
-
 		}
+
 		System.out.printf("%.2f",result);
 	}
 }

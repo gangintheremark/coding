@@ -4,6 +4,7 @@ import java.util.*;
 public class Main {
 
     static int n;
+    static  StringBuilder sb = new StringBuilder();
 
     static class Node {
         HashMap<String, Node> childs = new HashMap<>();
@@ -32,6 +33,7 @@ public class Main {
             }
         }
         print(root, "");
+        System.out.println(sb);
     }
 
     public static void print(Node root, String bar) {
@@ -39,7 +41,7 @@ public class Main {
         Arrays.sort(key);
 
         for (Object s : key) {
-            System.out.println(bar + s);
+            sb.append(bar).append(s).append('\n');
             print(root.childs.get(s), bar + "--");
         }
     }

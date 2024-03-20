@@ -2,95 +2,93 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-	static int n, m;
-	static double result;
-	static boolean[] visited;
-	static int[] parent;
-	static PriorityQueue<Node> pq = new PriorityQueue<>();
 
-	static class Node implements Comparable<Node> {
-		int v;
-		int w;
-		double dist;
+    static int n,m;
+    static int arr[][];
+    static PriorityQueue<Edge> pq = new PriorityQueue<>();
+    static int parent[];
+    
+    static class Edge implements Comparable<Edge>{
+        int u,v;
+        double cost;
 
-		public Node(int v, int w, double dist) {
-			this.v = v;
-			this.w = w;
-			this.dist = dist;
-		}
+        public Edge(int u, int v, double cost) {
+            super();
+            this.u = u;
+            this.v = v;
+            this.cost = cost;
+        }
 
-		@Override
-		public int compareTo(Node o) {
-			if(o.dist > this.dist)
-				return -1;
-			return 1;
-		}
+        @Override
+        public int compareTo(Edge o) {
+            return Double.compare(this.cost, o.cost);
+        }
+    }
+    
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        arr = new int[n + 1][2];
+        parent = new int[n + 1];
+        
+        for(int i=1;i<=n;i++) {
+            st = new StringTokenizer(br.readLine());
+            arr[i][0] = Integer.parseInt(st.nextToken()); //x좌표
+            arr[i][1] = Integer.parseInt(st.nextToken()); //y좌표
+            parent[i] = i; //parent 배열 초기화
+        }
+        
+        int edgeCnt = 0;
+        for(int i=1;i<=m;i++) {
+            st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
 
-		@Override
-		public String toString() {
-			return "Node [v=" + v + ", w=" + w + ", dist=" + dist + "]";
-		}
+            if(find(a) == find(b)) continue;
+            
+            edgeCnt++;
+            union(a, b);
+        }
+        
+        //모든 간선 우선순위큐에 저장
+        for(int i=1;i<=n;i++) {
+            for(int j=i+1;j<=n;j++) {
+                double distance = Math.sqrt(Math.pow(arr[i][0]-arr[j][0], 2) + Math.pow(arr[i][1]-arr[j][1], 2));
+                pq.add(new Edge(i,j,distance));
+            }
+        }
+    
+        double result = 0;
+        while(!pq.isEmpty()) {
+            Edge cur = pq.poll();
+            
+            //이미 연결된 경우
+            if(find(cur.u) == find(cur.v)) continue;
+            
+            //합치기
+            union(find(cur.u), find(cur.v));
+            result += cur.cost; //거리 갱신
+            edgeCnt++; //간선 개수 갱신
+            
+            //간선이 정점-1개가 되는 경우 모든 정점이 연결되어 있는 것!
+            if(edgeCnt == n-1) break;
+        }
+        
+        System.out.printf("%.2f",result);
+    }
+    
+    static void union(int a, int b) {
+        int pa = find(a);
+        int pb = find(b);
+        
+        parent[pb] = pa;
+    }
 
-	}
-
-	static int find(int x) {
-		if (x == parent[x])
-			return x;
-		return parent[x] = find(parent[x]);
-	}
-
-	static void union(int a, int b) {
-		a = find(a);
-		b = find(b);
-
-		if (b > a)
-			parent[b] = parent[a];
-		else
-			parent[a] = parent[b];
-	}
-
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
-
-		visited = new boolean[n + 1];
-		parent = new int[n + 1];
-
-		for (int i = 1; i <= n; i++) 
-			parent[i] = i;
-		
-
-		List<int[]> list = new ArrayList<>();
-		list.add(new int[] { 0, 0 });
-		for (int i = 1; i <= n; i++) {
-			st = new StringTokenizer(br.readLine());
-			list.add(new int[] { Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()) });
-		}
-
-		for (int i = 1; i < n; i++) {
-			for (int j = i + 1; j <= n; j++) {
-				double dist = Math.sqrt(Math.pow(list.get(i)[0] - list.get(j)[0],2) + Math.pow(list.get(i)[1] - list.get(j)[1], 2));
-				pq.add(new Node(i, j, dist));
-			}
-		}
-
-		for (int i = 0; i < m; i++) {
-			st = new StringTokenizer(br.readLine());
-			union(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
-		}
-		
-		while(!pq.isEmpty()) {
-			Node node = pq.poll();
-			
-			if(find(node.v) != find(node.w)) {
-				union(node.v, node.w);
-				result += node.dist;
-			}
-		}
-
-		System.out.printf("%.2f",result);
-	}
+    static int find(int a) {
+        if(a == parent[a]) return a;
+        return parent[a] = find(parent[a]);
+    }
 }

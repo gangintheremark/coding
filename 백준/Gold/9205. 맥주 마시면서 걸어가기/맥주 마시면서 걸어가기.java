@@ -11,7 +11,6 @@ public class Main {
 		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-		StringBuilder sb = new StringBuilder();
 		int tc = Integer.parseInt(st.nextToken());
 
 		nextCase : for(int t=1; t<=tc; t++) {

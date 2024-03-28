@@ -1,54 +1,66 @@
-import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.StringTokenizer;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-
-	static int T, N;
-	static Point[] points;
-	static int[][] distance;
-	static final int INF = (int) 1e9;
-
+	
+	static int getDist(int[] pos1, int[] pos2) {
+		return Math.abs(pos1[0]-pos2[0]) + Math.abs(pos1[1]-pos2[1]);
+	}
+	
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st;
+		StringTokenizer st = new StringTokenizer(br.readLine());
 		StringBuilder sb = new StringBuilder();
-		T = Integer.parseInt(br.readLine());
-		for (int tc = 1; tc <= T; tc++) {
-			N = Integer.parseInt(br.readLine());
-			points = new Point[N + 2];
-			for (int i = 0; i < N + 2; i++) {
+		int tc = Integer.parseInt(st.nextToken());
+
+		nextCase : for(int t=1; t<=tc; t++) {
+			int n = Integer.parseInt(br.readLine());
+			
+			boolean[][] adj = new boolean[n+2][n+2];
+			int[][] pos = new int[n+2][2];
+			
+			for(int i=0; i<n+2; i++) {
 				st = new StringTokenizer(br.readLine());
-				points[i] = new Point(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()));
-			}
-
-			distance = new int[N + 2][N + 2];
-			for (int i = 0; i < N + 1; i++) {
-				for (int j = i + 1; j < N + 2; j++) {
-					distance[i][j] = distance[j][i] = INF;
-					int dis = Math.abs(points[i].y - points[j].y) + Math.abs(points[i].x - points[j].x);
-					if (dis <= 50 * 20)
-						distance[i][j] = distance[j][i] = 1; // i에서 j까지 맥주마시면서 갈 수 있다면 1로 업데이트
-				}
-			}
-
-			for (int k = 0; k < N + 2; k++) {
-				for (int i = 0; i < N + 2; i++) {
-					for (int j = 0; j < N + 2; j++) {
-						distance[i][j] = Math.min(distance[i][j], distance[i][k] + distance[k][j]); // i->j 까지 직항 경로와 k를
-																									// 거치는 경유 경로의 길이를 비
+				int x = Integer.parseInt(st.nextToken());
+				int y = Integer.parseInt(st.nextToken());
+				
+				pos[i] = new int[] {x,y};
+				
+				for(int j=0; j<i; j++) {
+					int dist = getDist(pos[j], pos[i]);
+					// 좌표 간 거리 계산 후 1000m(50m*20병) 이하인 간선만 입력
+					if(dist<=1000) {
+						adj[i][j]=true;
+						adj[j][i]=true;
 					}
 				}
 			}
-
-			sb.append(distance[0][N + 1] != INF ? "happy" : "sad").append('\n');
+			
+			boolean[] visited = new boolean[n+2];
+			
+			Queue<Integer> q = new LinkedList<>();
+			q.add(0);
+			visited[0]=true;
+			
+			while(!q.isEmpty()) {
+				int cur = q.poll();
+				
+				for(int i=0; i<n+2; i++) {
+					if(adj[cur][i] && !visited[i]) {
+						visited[i] = true;
+						q.add(i);
+					}
+				}
+				
+				if(visited[n+1]) {
+					System.out.println("happy");
+					continue nextCase;
+				}
+			}
+			System.out.println("sad");
+			
 		}
-		System.out.println(sb);
 	}
 
 }

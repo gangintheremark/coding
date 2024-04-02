@@ -1,12 +1,5 @@
-import java.awt.Point;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
 
@@ -28,10 +21,10 @@ public class Main {
 		int a = 0, b = 0;
 		while (lt < rt && rt < n) {
 			int mix = arr[lt] + arr[rt];
+			int mixAbs = Math.abs(mix);
+			if (mixAbs<= minMix) {
 
-			if (Math.abs(mix) <= minMix) {
-
-				minMix = Math.abs(mix);
+				minMix = mixAbs;
 				a = arr[lt];
 				b = arr[rt];
 

@@ -4,7 +4,7 @@ import java.util.*;
 public class Main {
 
 	static int n;
-	static boolean[][] visited = new boolean[10001][10001];
+	static boolean[][] visited = new boolean[2001][2001]; // [count][clipCount] 방문체크
 
 	/*
 	 * 1. 클립보드 값을 현재 이모티콘 값으로 변경 => 클립보다 값이 현재 이모티콘 값이 아닌 경우 복사가능 2. 클립보드 값을 현재 이모티콘
@@ -30,6 +30,8 @@ public class Main {
 		while(!q.isEmpty()) {
 			Node node = q.poll();
 			
+			if(node.count > n) continue;
+			
 			if(node.count == n) 
 				return node.time;
 			
@@ -42,7 +44,7 @@ public class Main {
 				q.offer(new Node(node.count + node.clipCount, node.clipCount, node.time + 1));
 			}
 			 // 3. 
-			 if(node.count > 0 && !visited[node.count - 1][node.clipCount]) { 
+			 if(node.count > 1 && !visited[node.count - 1][node.clipCount]) { 
 				visited[node.count - 1][node.clipCount] = true;
 				 q.offer(new Node(node.count -1 , node.clipCount, node.time + 1));
 			 }

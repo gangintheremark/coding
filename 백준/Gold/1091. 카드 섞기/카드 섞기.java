@@ -4,7 +4,7 @@ import java.io.*;
 public class Main {
 
 	static int n, result, arr[], mix[];
-
+	
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 //		StringTokenizer st = new StringTokenizer(br.readLine());
@@ -39,22 +39,21 @@ public class Main {
 			}
 			
 			if(flag) break;
+			
 			// 2. 자리바꾸기
 			for (int i = 0; i < n; i++)
 				copy[mix[i]] = arr[i];
 			arr = copy.clone();
 			result++;
 			
-			// 3. 방문체크 (방문체크된 구조라면 -1 출력 및 종료)
-			for (int i = 0; i < n; i++) {
-				if(init[i] == arr[i]) continue;
-				else continue loop;
-			}
+			// 3. 초기값과 똑같은지 체크
+			for (int i = 0; i < n; i++) 
+				if(init[i] != arr[i]) continue loop;
 			
 			result = -1;
 			break;
 		}
-		System.out.println(result );
+		System.out.println(result);
 
 	}
 }

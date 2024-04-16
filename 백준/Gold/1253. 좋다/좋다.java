@@ -19,27 +19,27 @@ public class Main {
 
         Arrays.sort(arr);
 
-        List<Integer> tmp = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n ; j++) {
-                if( i != j) tmp.add(arr[j]);
-            }
-
             int left = 0;
-            int right = tmp.size() - 1;
-            while(left < right) {
-                int sum = tmp.get(left) + tmp.get(right);
-                if(sum == arr[i]) {
-                    result++;
-                    break;
-                }
+            int right = n - 1;
 
-                if( sum < arr[i] )
-                    left++;
-                else
-                    right--;
+            while (left < right) {
+                if (left == i) left++;
+                else if (right == i) right--;
+                else {
+                    int sum = arr[left] + arr[right];
+                    if (sum == arr[i]) {
+                        result++;
+                        break;
+                    }
+
+                    if (sum < arr[i])
+                        left++;
+                    else
+                        right--;
+                }
             }
-            tmp.clear();
+
         }
 
         System.out.println(result);

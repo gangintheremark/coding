@@ -5,7 +5,7 @@ public class Main {
 
 	static int n, result;
 	static boolean[] check;
-	static List<Integer> prim = new ArrayList<>();
+	static List<Integer> prime = new ArrayList<>();
 
 	public static void main(String[] args) throws IOException {
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -30,20 +30,20 @@ public class Main {
 
 		for (int i = 2; i <= n; i++) {
 			if (!check[i])
-				prim.add(i);
+				prime.add(i);
 		}
 
 		if (!check[n])
 			result++;
-		int sum = 0, start = 0, end = 0, size = prim.size();
+		int sum = 0, start = 0, end = 0, size = prime.size();
 
 		while (start < size && end < size) {
 			if (sum == n)
 				result++;
 			if (sum < n)
-				sum += prim.get(end++);
+				sum += prime.get(end++);
 			else if (sum >= n)
-				sum -= prim.get(start++);
+				sum -= prime.get(start++);
 		}
 
 		System.out.println(result);

@@ -18,23 +18,21 @@ public class Main {
 			System.out.println(0);
 			return;
 		}
+		
 		check = new boolean[n + 1];
 		for (int i = 2; i <= n; i++) {
 			if (check[i])
 				continue;
+			
+			prime.add(i);
 
 			for (int j = i * 2; j <= n; j += i) {
 				check[j] = true; // 소수가 아닌 수 true
 			}
 		}
 
-		for (int i = 2; i <= n; i++) {
-			if (!check[i])
-				prime.add(i);
-		}
-
-		if (!check[n])
-			result++;
+		if (!check[n]) result++;
+		
 		int sum = 0, start = 0, end = 0, size = prime.size();
 
 		while (start < size && end < size) {

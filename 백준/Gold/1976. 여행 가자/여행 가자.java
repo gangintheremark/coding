@@ -3,7 +3,6 @@ import java.util.*;
 
 public class Main {
 
-    // 크루스칼
     static int n, m;
     static int[] parent;
     public static int find(int x) {

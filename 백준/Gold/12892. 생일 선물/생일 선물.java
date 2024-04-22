@@ -14,10 +14,10 @@ public class Main {
     static long result;
 
     static class Present implements Comparable<Present> {
-        long price;
-        long good;
+        int price;
+        int good;
 
-        public Present(long price, long good) {
+        public Present(int price, int good) {
             this.price = price;
             this.good = good;
         }

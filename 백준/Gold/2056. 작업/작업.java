@@ -33,15 +33,15 @@ public class Main {
 
 		while (!pq.isEmpty()) {
 			Node now = pq.poll();
-			time = Math.max(now.time, time);
+			time = now.time;
 
 			for (int i = 0; i < now.list.size(); i++) {
-				// 진입차수-1
-				indegree[now.list.get(i)]--;
+            	int work = now.list.get(i);
+				indegree[work]--;		// 진입차수-1
 
-				if (indegree[now.list.get(i)] == 0) {
-					graph[now.list.get(i)].time += now.time;
-					pq.offer(graph[now.list.get(i)]);
+				if (indegree[work] == 0) {
+					graph[work].time += now.time;
+					pq.offer(graph[work]);
 				}
 			}
 		}

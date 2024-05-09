@@ -1,8 +1,7 @@
 import java.util.Stack;
+
 class Solution {
-	
 	public String solution(int n, int k, String[] cmd) {
-		String answer = "";
 		StringBuilder sb = new StringBuilder();
 		Stack<Integer> delete = new Stack<>();
 		int size = n;
@@ -30,9 +29,7 @@ class Solution {
 		
 		while(!delete.isEmpty())
 			sb.insert(delete.pop(), "X");
-		answer = sb.toString();
-
-		return answer;
+		return sb.toString();
 	}
 
 }

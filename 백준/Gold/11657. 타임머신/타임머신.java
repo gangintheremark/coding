@@ -1,81 +1,77 @@
-import java.io.*;
 import java.util.*;
+import java.io.*;
 
 public class Main {
-	static int n, m, INF = (int) 1e10;
-	static ArrayList<Edge> graph = new ArrayList<>();;
-	static long[] d;
 
-	static class Edge {
-		int v;
-		int w;
-		int cost;
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static StringBuilder sb = new StringBuilder();
+    private static StringTokenizer st;
+    private static int INF = (int) 1e10;
+    private static int n, m;
+    private static ArrayList<Edge> graph = new ArrayList<>();
+    private static long[] d;
 
-		public Edge(int start, int end, int cost) {
-			this.v = start;
-			this.w = end;
-			this.cost = cost;
-		}
-	}
+    static class Edge {
+        int v;
+        int w;
+        int cost;
 
-	public static boolean BellmanFord(int start) {
-		d[start] = 0;
+        public Edge(int v, int w, int cost) {
+            this.v = v;
+            this.w = w;
+            this.cost = cost;
+        }
+    }
 
-		// 정점의 개수만큼 반복
-		for (int i = 0; i < n; i++) {
-			// 간선의 개수만큼 반복
-			for (int j = 0; j < m; j++) {
-				Edge edge = graph.get(j);
+    public static boolean BellmanFord() {
+        d[1] = 0;
 
-				// 현재 간선의 들어오는 정점에 대해 비교
-				if (d[edge.v] != INF && d[edge.w] > d[edge.v] + edge.cost)
-					d[edge.w] = d[edge.v] + edge.cost;
-			}
-		}
+        for (int i = 1; i <= n; i++) {
+            for (int j = 0; j < m; j++) {
+                Edge edge = graph.get(j);
 
-		// 음의 가중치 확인
-		for (int i = 0; i < m; i++) {
-			Edge edge = graph.get(i); // 현재 간선
+                if (d[edge.v] != INF && d[edge.w] > d[edge.v] + edge.cost) {
+                    d[edge.w] = d[edge.v] + edge.cost;
+                }
+            }
+        }
 
-			// 현재 간선의 들어오는 정점에 대해 비교 => 더 작은 값이 생기면 음수 사이클 존재
-			if (d[edge.v] != INF && d[edge.w] > d[edge.v] + edge.cost)
-				return false;
-		}
+        for (int i = 0; i < m; i++) {
+            Edge edge = graph.get(i);
 
-		return true;
+            if (d[edge.v] != INF && d[edge.w] > d[edge.v] + edge.cost) {
+                return false;
+            }
+        }
+        return true;
+    }
 
-	}
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		StringBuilder sb = new StringBuilder();
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
+    public static void main(String[] args) throws IOException {
+        st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-		d = new long[n + 1];
-		Arrays.fill(d, INF);
+        d = new long[n + 1];
+        Arrays.fill(d, INF);
 
-		for (int i = 0; i < m; i++) {
-			st = new StringTokenizer(br.readLine());
-			graph.add(new Edge(Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken()),
-					Integer.parseInt(st.nextToken())));
-		}
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
 
-		boolean flag = BellmanFord(1);
+            graph.add(new Edge(u, v, w));
+        }
 
-		for (int i = 2; i <= n; i++) {
-			if (flag) {
-				if (d[i] == INF)
-					sb.append(-1);
-				else
-					sb.append(d[i]);
-			} else {
-				sb.append(-1).append('\n');
-				break;
-			}
-			sb.append('\n');
-		}
-		System.out.println(sb);
-	}
+        if (BellmanFord()) {
+            for (int i = 2; i <= n; i++) {
+                sb.append(d[i] == INF ? -1 : d[i]).append('\n');
+            }
+        } else {
+            sb.append(-1).append('\n');
+        }
+        System.out.println(sb);
+    }
+
 }

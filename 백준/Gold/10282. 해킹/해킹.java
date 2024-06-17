@@ -51,7 +51,6 @@ public class Main {
         int t = Integer.parseInt(br.readLine());
 
         for (int tc = 0; tc < t; tc++) {
-            graph.clear();
             st = new StringTokenizer(br.readLine());
             n = Integer.parseInt(st.nextToken());
             m = Integer.parseInt(st.nextToken());
@@ -74,6 +73,7 @@ public class Main {
             dijkstra(start);
             sb.append(count).append(' ').append(time).append('\n');
             count = time = 0;
+            graph.clear();
         }
         System.out.println(sb);
     }

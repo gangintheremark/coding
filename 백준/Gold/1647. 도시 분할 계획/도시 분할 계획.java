@@ -1,85 +1,82 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
+
+/*
+    최소 신장 트리 구성 후 가장 긴 길 제거
+ */
 
 public class Main {
-	static int n, m;
-	static int[] parent;
-	static ArrayList<Node> edges = new ArrayList<>();
 
-	static class Node implements Comparable<Node> {
-		int v;
-		int w;
-		int cost;
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static StringBuilder sb = new StringBuilder();
+    private static StringTokenizer st;
+    private static int n, m;
+    private static int[] parent;
+    private static ArrayList<Edge> graph = new ArrayList<>();
 
-		public Node(int v, int w, int cost) {
-			this.v = v;
-			this.w = w;
-			this.cost = cost;
-		}
+    static class Edge implements Comparable<Edge> {
+        int v;
+        int w;
+        int cost;
 
-		@Override
-		public int compareTo(Node o) {
-			return this.cost - o.cost;
-		}
-	}
+        public Edge(int v, int w, int cost) {
+            this.v = v;
+            this.w = w;
+            this.cost = cost;
+        }
 
-	static int find(int x) {
-		if (x == parent[x])
-			return x;
-		else
-			return parent[x] = find(parent[x]);
-	}
+        @Override
+        public int compareTo(Edge o) {
+            return this.cost - o.cost;
+        }
+    }
 
-	static void union(int a, int b) {
-		a = find(a);
-		b = find(b);
+    static int find(int x) {
+        if (x == parent[x]) return x;
+        else return parent[x] = find(parent[x]);
+    }
 
-		if (a < b)
-			parent[b] = a;
-		else
-			parent[a] = b;
-	}
+    static void union(int a, int b) {
+        a = find(a);
+        b = find(b);
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+        if (a < b) parent[b] = a;
+        else parent[a] = b;
+    }
 
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
+    public static void main(String[] args) throws IOException {
+        st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-		parent = new int[n + 1];
-		for (int i = 1; i <= n; i++)
-			parent[i] = i;
+        parent = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            parent[i] = i;
+        }
 
-		for (int i = 0; i < m; i++) {
-			st = new StringTokenizer(br.readLine());
-			int v = Integer.parseInt(st.nextToken());
-			int w = Integer.parseInt(st.nextToken());
-			int cost = Integer.parseInt(st.nextToken());
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+            int u = Integer.parseInt(st.nextToken());
+            int v = Integer.parseInt(st.nextToken());
+            int w = Integer.parseInt(st.nextToken());
 
-			edges.add(new Node(v, w, cost));
-		}
+            graph.add(new Edge(u, v, w));
+        }
 
-		Collections.sort(edges);
-		
-		int max = 0;
-		int sum = 0;
-		for (int i = 0; i < edges.size(); i++) {
-			int v = edges.get(i).v;
-			int w = edges.get(i).w;
-			int cost = edges.get(i).cost;
-			
-			if(find(v) != find(w)) {
-				union(v, w);
-				sum += cost;
-				max = Math.max(cost, max); 
-			}
-		}
-		
-		System.out.println(sum - max);
-	}
+        Collections.sort(graph);
+
+        int total = 0;
+        int max = 0;
+        for (int i = 0; i < graph.size(); i++) {
+            Edge edge = graph.get(i);
+
+            if (find(edge.v) != find(edge.w)) {
+                union(edge.v, edge.w);
+                total += edge.cost;
+                max = Math.max(max, edge.cost);
+            }
+        }
+
+        System.out.println(total - max);
+    }
 }

@@ -1,100 +1,106 @@
+import java.awt.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 public class Main {
-	static int n, m, result, count, countCopy;
-	static int[][] board, boardCopy;
-	static boolean[][] visited;
-	static List<int[]> list = new ArrayList<int[]>();
-	static List<int[]> wall = new ArrayList<int[]>();
-	static List<int[]> birus = new ArrayList<int[]>();
-	static int[] dx = { 1, -1, 0, 0 };
-	static int[] dy = { 0, 0, 1, -1 };
+    /*
+    n,m의 최대크기가 8 이므로 완전탐색 가능
+    벽을 세우고 안전 영역 count 후 maxCount 찾기
+     */
 
-	public static void bfs(int[] start) {
-		Queue<int[]> q = new LinkedList<int[]>();
-		q.offer(new int[] { start[0], start[1] });
-		while (!q.isEmpty()) {
-			int[] now = q.poll();
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static StringTokenizer st;
+    private static int[] dx = {1, -1, 0, 0};
+    private static int[] dy = {0, 0, 1, -1};
+    private static int n, m, result, safeZone, safeZoneCopy;
+    private static int[][] board;
+    private static int[][] boardCopy;
+    private static ArrayList<Point> birus = new ArrayList<>();
+    private static ArrayList<Point> empty = new ArrayList<>();
+    private static ArrayList<Point> walls = new ArrayList<>();
 
-			for (int i = 0; i < 4; i++) {
-				int nx = now[0] + dx[i];
-				int ny = now[1] + dy[i];
+    public static boolean isValid(int nx, int ny) {
+        if (nx >= 0 && ny >= 0 && nx < n && ny < m) return true;
+        return false;
+    }
 
-				if (nx >= 0 && nx < n && ny >= 0 && ny < m && boardCopy[nx][ny] == 0) {
-					boardCopy[nx][ny]++;
-					countCopy--;
-					q.offer(new int[] { nx, ny });
-				}
-			}
-		}
-	}
+    public static void bfs() {
+        Queue<Point> q = new LinkedList<>();
+        for (Point p : birus) {
+            q.offer(p);
+        }
 
-	public static void copy() {
-		for (int i = 0; i < board.length; i++) {
-			boardCopy[i] = board[i].clone();
-		}
-		countCopy = count - 3;
-	}
+        while (!q.isEmpty()) {
+            Point p = q.poll();
 
-	public static void bfs(int start) {
-		Queue<int[]> q = new LinkedList<>();
-		q.offer(new int[] {});
-	}
+            for (int i = 0; i < 4; i++) {
+                int nx = p.x + dx[i];
+                int ny = p.y + dy[i];
 
-	// list에서 3개 뽑기
-	public static void combi(int start) {
-		if (wall.size() == 3) {
-			// 벽 세우고 바이러스 번식 후 0인 영역 세기
+                if (isValid(nx, ny) && boardCopy[nx][ny] == 0) {
+                    boardCopy[nx][ny] = 2;
+                    safeZoneCopy--;
+                    q.add(new Point(nx, ny));
+                }
+            }
+        }
+    }
 
-			copy();
+    public static void copy() {
+        for (int i = 0; i < n; i++) {
+            boardCopy[i] = board[i].clone();
+        }
 
-			for (int[] i : wall)
-				boardCopy[i[0]][i[1]] = 1;
+        safeZoneCopy = safeZone - 3;
+    }
 
-			// 바이러스 번식
-			for (int[] i : birus)
-				bfs(i);
-			
-			result = Math.max(result, countCopy);
-			return;
-		}
+    // empty 중 3개 뽑기
+    public static void combi(int count) {
+        if (count == 3) {
+            copy();
 
-		for (int i = start; i < list.size(); i++) {
-			wall.add(new int[] { list.get(i)[0], list.get(i)[1] });
-			combi(start + 1);
-			wall.remove(wall.size() - 1);
-		}
-	}
+            // 벽 세우기
+            for (Point p : walls) {
+                boardCopy[p.x][p.y] = 1;
+            }
 
-	public static void main(String[] args) throws Exception {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+            // 바이러스
+            bfs();
 
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
+            if(result < safeZoneCopy) result = safeZoneCopy;
+            return;
+        }
+        for (int i = 0; i < empty.size(); i++) {
+            walls.add(new Point(empty.get(i).x, empty.get(i).y));
+            combi(count + 1);
+            walls.remove(walls.size() - 1);
+        }
+    }
 
-		// 0은 빈칸, 1은 벽, 2는 바이러스
-		// 안전영역의 최대크기
-		board = new int[n][m];
-		boardCopy = new int[n][m];
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < m; j++) {
-				board[i][j] = Integer.parseInt(st.nextToken());
+    public static void main(String[] args) throws IOException {
+        st = new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-				if (board[i][j] == 0) {
-					list.add(new int[] { i, j });
-					count++;
-				}
-				if (board[i][j] == 2)
-					birus.add(new int[] { i, j });
-			}
-		}
+        board = new int[n][m];
+        boardCopy = new int[n][m];
 
-		combi(0);
-		
-		System.out.println(result);
+        for (int i = 0; i < n; i++) {
+            st = new StringTokenizer(br.readLine());
+            for (int j = 0; j < m; j++) {
+                board[i][j] = Integer.parseInt(st.nextToken());
+                if (board[i][j] == 2) {
+                    birus.add(new Point(i, j));
+                } else if (board[i][j] == 0) {
+                    empty.add(new Point(i, j));
+                    safeZone++;
+                }
+            }
+        }
 
-	}
+        combi(0);
+
+        System.out.println(result);
+    }
 }

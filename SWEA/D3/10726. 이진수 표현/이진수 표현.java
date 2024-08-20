@@ -1,11 +1,12 @@
-import java.util.*;
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.util.StringTokenizer;
 
 public class Solution {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
-        StringBuilder sb = new StringBuilder();
+    private static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    private static StringBuilder sb = new StringBuilder();
+    private static StringTokenizer st;
+    public static void main(String[] args) throws Exception {
         int t = Integer.parseInt(br.readLine());
 
         for (int tc = 1; tc <= t; tc++) {
@@ -13,13 +14,11 @@ public class Solution {
             int n = Integer.parseInt(st.nextToken());
             int m = Integer.parseInt(st.nextToken());
 
-            int lastNBit = (1 << (n)) - 1; /// 111...1 (길이 n)
-            if (lastNBit == (m & lastNBit))
-                sb.append('#').append(tc).append(' ').append("ON").append('\n');
-            else
-                sb.append('#').append(tc).append(' ').append("OFF").append('\n');
-        }
+            int lastNBit = ( 1 << n ) - 1;
 
+            sb.append('#').append(tc).append(' ').append(lastNBit == (m & lastNBit) ? "ON" : "OFF").append('\n');
+
+        }
         System.out.println(sb);
     }
 }
